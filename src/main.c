@@ -8,21 +8,11 @@
 #include <signal.h>
 #include "symbols.h"
 
-/* Holds a single command. */
-typedef struct Cmd {
-  /* The command as input by the user. */
-  char line[MAX_LINE + 1];
-  /* The command as null terminated tokens. */
-  char tokenLine[MAX_LINE + 1];
-  /* Pointers to each argument in tokenLine, non-arguments are NULL. */
-  char * args[MAX_ARGS];
-  /* Pointers to each symbol in tokenLine, non-symbols are NULL. */
-  char * symbols[MAX_ARGS];
-  /* The process id of the executing command. */
-  pid_t pid;
-  /* TODO: Additional fields may be helpful. */
-}
-Cmd;
+#ifndef H_BUILTIN
+#include "builtin.h"
+#endif
+
+#include "builtin.c"
 
 /* The process if of the currently executing forground command, or 0. */
 pid_t forgroundPid = 0;
@@ -36,6 +26,7 @@ void parseCmd(Cmd * cmd) {
   strcpy(cmd -> tokenLine, cmd -> line);
   strtok(cmd -> tokenLine, "\n");
   token = strtok(cmd -> tokenLine, " ");
+
   while (token != NULL) {
     if ( * token == '\n') {
       cmd -> args[i] = NULL;
@@ -49,6 +40,7 @@ void parseCmd(Cmd * cmd) {
     token = strtok(NULL, " ");
     i++;
   }
+
   cmd -> args[i] = NULL;
 }
 
@@ -75,6 +67,8 @@ void sigtstpHandler(int sig_num) {
   }
 }
 
+
+
 int main(void) {
     /* Listen for control+z (suspend process). */
     signal(SIGTSTP, sigtstpHandler);
@@ -84,18 +78,19 @@ int main(void) {
       Cmd * cmd = (Cmd * ) calloc(1, sizeof(Cmd));
       fgets(cmd -> line, MAX_LINE, stdin);
       parseCmd(cmd);
+
       if (!cmd -> args[0]) {
         free(cmd);
-      } else if (strcmp(cmd -> args[0], "exit") == 0) {
-        free(cmd);
-        exit(0);
-        /* TODO: Add built-in commands: jobs and bg. */
+        continue;
+      }
+      builtin_callback_t *cb = findBuiltinCmd(cmd -> args[0]);
+      if (cb) {
+          cb();
+      }
+      if (findSymbol(cmd, BG_OP) != -1) {
+        /* TODO: Run command in background. */
       } else {
-        if (findSymbol(cmd, BG_OP) != -1) {
-          /* TODO: Run command in background. */
-        } else {
-          /* TODO: Run command in foreground. */
-        }
+        /* TODO: Run command in foreground. */
       }
       /* TODO: Check on status of background processes. */
     }
