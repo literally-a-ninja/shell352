@@ -1,17 +1,9 @@
 #include <string.h>
 #include <stdio.h>
 
-#ifndef H_BUILTIN
 #include "builtin.h"
-#endif
+#include "builtin/builtin_exit.h"
 
-#include "builtin/builtin_exit.c"
-
-#define BUILTIN_CMDS_LENGTH 2
-
-/**
- * Array holds all builtin command fn pointers
- **/
 const struct builtin_t builtin_cmds[BUILTIN_CMDS_LENGTH] = {
     {"quit", &builtin_exit},
     {"exit", &builtin_exit}

@@ -67,7 +67,7 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/johnny/Documents/Repositories/CS352/shell/build
+CMAKE_SOURCE_DIR = /home/johnny/Documents/Repositories/CS352/shell
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/johnny/Documents/Repositories/CS352/shell
@@ -126,6 +126,7 @@ preinstall/fast:
 
 # clear depends
 depend:
+	$(CMAKE_COMMAND) -P /home/johnny/Documents/Repositories/CS352/shell/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
@@ -142,20 +143,126 @@ shell352/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell352.dir/build.make CMakeFiles/shell352.dir/build
 .PHONY : shell352/fast
 
+#=============================================================================
+# Target rules for targets named buongiorno
+
+# Build rule for target.
+buongiorno: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 buongiorno
+.PHONY : buongiorno
+
+# fast build rule for target.
+buongiorno/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/build
+.PHONY : buongiorno/fast
+
+src/buongiorno/builtin.o: src/buongiorno/builtin.c.o
+
+.PHONY : src/buongiorno/builtin.o
+
 # target to build an object file
-src/main.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell352.dir/build.make CMakeFiles/shell352.dir/src/main.o
-.PHONY : src/main.o
+src/buongiorno/builtin.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin.c.o
+.PHONY : src/buongiorno/builtin.c.o
+
+src/buongiorno/builtin.i: src/buongiorno/builtin.c.i
+
+.PHONY : src/buongiorno/builtin.i
 
 # target to preprocess a source file
-src/main.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell352.dir/build.make CMakeFiles/shell352.dir/src/main.i
-.PHONY : src/main.i
+src/buongiorno/builtin.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin.c.i
+.PHONY : src/buongiorno/builtin.c.i
+
+src/buongiorno/builtin.s: src/buongiorno/builtin.c.s
+
+.PHONY : src/buongiorno/builtin.s
 
 # target to generate assembly for a file
-src/main.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell352.dir/build.make CMakeFiles/shell352.dir/src/main.s
+src/buongiorno/builtin.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin.c.s
+.PHONY : src/buongiorno/builtin.c.s
+
+src/buongiorno/builtin/builtin_exit.o: src/buongiorno/builtin/builtin_exit.c.o
+
+.PHONY : src/buongiorno/builtin/builtin_exit.o
+
+# target to build an object file
+src/buongiorno/builtin/builtin_exit.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin/builtin_exit.c.o
+.PHONY : src/buongiorno/builtin/builtin_exit.c.o
+
+src/buongiorno/builtin/builtin_exit.i: src/buongiorno/builtin/builtin_exit.c.i
+
+.PHONY : src/buongiorno/builtin/builtin_exit.i
+
+# target to preprocess a source file
+src/buongiorno/builtin/builtin_exit.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin/builtin_exit.c.i
+.PHONY : src/buongiorno/builtin/builtin_exit.c.i
+
+src/buongiorno/builtin/builtin_exit.s: src/buongiorno/builtin/builtin_exit.c.s
+
+.PHONY : src/buongiorno/builtin/builtin_exit.s
+
+# target to generate assembly for a file
+src/buongiorno/builtin/builtin_exit.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin/builtin_exit.c.s
+.PHONY : src/buongiorno/builtin/builtin_exit.c.s
+
+src/buongiorno/command_utilities.o: src/buongiorno/command_utilities.c.o
+
+.PHONY : src/buongiorno/command_utilities.o
+
+# target to build an object file
+src/buongiorno/command_utilities.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/command_utilities.c.o
+.PHONY : src/buongiorno/command_utilities.c.o
+
+src/buongiorno/command_utilities.i: src/buongiorno/command_utilities.c.i
+
+.PHONY : src/buongiorno/command_utilities.i
+
+# target to preprocess a source file
+src/buongiorno/command_utilities.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/command_utilities.c.i
+.PHONY : src/buongiorno/command_utilities.c.i
+
+src/buongiorno/command_utilities.s: src/buongiorno/command_utilities.c.s
+
+.PHONY : src/buongiorno/command_utilities.s
+
+# target to generate assembly for a file
+src/buongiorno/command_utilities.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/command_utilities.c.s
+.PHONY : src/buongiorno/command_utilities.c.s
+
+src/main.o: src/main.c.o
+
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell352.dir/build.make CMakeFiles/shell352.dir/src/main.c.o
+.PHONY : src/main.c.o
+
+src/main.i: src/main.c.i
+
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell352.dir/build.make CMakeFiles/shell352.dir/src/main.c.i
+.PHONY : src/main.c.i
+
+src/main.s: src/main.c.s
+
 .PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell352.dir/build.make CMakeFiles/shell352.dir/src/main.c.s
+.PHONY : src/main.c.s
 
 # Help Target
 help:
@@ -165,7 +272,17 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... buongiorno"
 	@echo "... shell352"
+	@echo "... src/buongiorno/builtin.o"
+	@echo "... src/buongiorno/builtin.i"
+	@echo "... src/buongiorno/builtin.s"
+	@echo "... src/buongiorno/builtin/builtin_exit.o"
+	@echo "... src/buongiorno/builtin/builtin_exit.i"
+	@echo "... src/buongiorno/builtin/builtin_exit.s"
+	@echo "... src/buongiorno/command_utilities.o"
+	@echo "... src/buongiorno/command_utilities.i"
+	@echo "... src/buongiorno/command_utilities.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
@@ -180,6 +297,7 @@ help:
 # No rule that depends on this can have commands that come from listfiles
 # because they might be regenerated.
 cmake_check_build_system:
+	$(CMAKE_COMMAND) -P /home/johnny/Documents/Repositories/CS352/shell/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 0
 .PHONY : cmake_check_build_system
 

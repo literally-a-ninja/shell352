@@ -1,3 +1,6 @@
+#ifndef H_SYMBOLS
+#define H_SYMBOLS
+
 #include <sys/types.h>
 
 #define MAX_LINE 80
@@ -6,6 +9,10 @@
 #define REDIRECT_IN_OP '<'
 #define PIPE_OP '|'
 #define BG_OP '&'
+
+
+/* The process if of the currently executing forground command, or 0. */
+extern pid_t g_pidFg;
 
 /* Holds a single command. */
 typedef struct Cmd {
@@ -21,3 +28,5 @@ typedef struct Cmd {
   pid_t pid;
   /* TODO: Additional fields may be helpful. */
 } Cmd;
+
+#endif
