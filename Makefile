@@ -156,60 +156,6 @@ buongiorno/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/build
 .PHONY : buongiorno/fast
 
-src/buongiorno/builtin.o: src/buongiorno/builtin.c.o
-
-.PHONY : src/buongiorno/builtin.o
-
-# target to build an object file
-src/buongiorno/builtin.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin.c.o
-.PHONY : src/buongiorno/builtin.c.o
-
-src/buongiorno/builtin.i: src/buongiorno/builtin.c.i
-
-.PHONY : src/buongiorno/builtin.i
-
-# target to preprocess a source file
-src/buongiorno/builtin.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin.c.i
-.PHONY : src/buongiorno/builtin.c.i
-
-src/buongiorno/builtin.s: src/buongiorno/builtin.c.s
-
-.PHONY : src/buongiorno/builtin.s
-
-# target to generate assembly for a file
-src/buongiorno/builtin.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin.c.s
-.PHONY : src/buongiorno/builtin.c.s
-
-src/buongiorno/builtin/builtin_exit.o: src/buongiorno/builtin/builtin_exit.c.o
-
-.PHONY : src/buongiorno/builtin/builtin_exit.o
-
-# target to build an object file
-src/buongiorno/builtin/builtin_exit.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin/builtin_exit.c.o
-.PHONY : src/buongiorno/builtin/builtin_exit.c.o
-
-src/buongiorno/builtin/builtin_exit.i: src/buongiorno/builtin/builtin_exit.c.i
-
-.PHONY : src/buongiorno/builtin/builtin_exit.i
-
-# target to preprocess a source file
-src/buongiorno/builtin/builtin_exit.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin/builtin_exit.c.i
-.PHONY : src/buongiorno/builtin/builtin_exit.c.i
-
-src/buongiorno/builtin/builtin_exit.s: src/buongiorno/builtin/builtin_exit.c.s
-
-.PHONY : src/buongiorno/builtin/builtin_exit.s
-
-# target to generate assembly for a file
-src/buongiorno/builtin/builtin_exit.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/builtin/builtin_exit.c.s
-.PHONY : src/buongiorno/builtin/builtin_exit.c.s
-
 src/buongiorno/command_utilities.o: src/buongiorno/command_utilities.c.o
 
 .PHONY : src/buongiorno/command_utilities.o
@@ -236,6 +182,60 @@ src/buongiorno/command_utilities.s: src/buongiorno/command_utilities.c.s
 src/buongiorno/command_utilities.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/command_utilities.c.s
 .PHONY : src/buongiorno/command_utilities.c.s
+
+src/buongiorno/path.o: src/buongiorno/path.c.o
+
+.PHONY : src/buongiorno/path.o
+
+# target to build an object file
+src/buongiorno/path.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/path.c.o
+.PHONY : src/buongiorno/path.c.o
+
+src/buongiorno/path.i: src/buongiorno/path.c.i
+
+.PHONY : src/buongiorno/path.i
+
+# target to preprocess a source file
+src/buongiorno/path.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/path.c.i
+.PHONY : src/buongiorno/path.c.i
+
+src/buongiorno/path.s: src/buongiorno/path.c.s
+
+.PHONY : src/buongiorno/path.s
+
+# target to generate assembly for a file
+src/buongiorno/path.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/path.c.s
+.PHONY : src/buongiorno/path.c.s
+
+src/buongiorno/string.o: src/buongiorno/string.c.o
+
+.PHONY : src/buongiorno/string.o
+
+# target to build an object file
+src/buongiorno/string.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/string.c.o
+.PHONY : src/buongiorno/string.c.o
+
+src/buongiorno/string.i: src/buongiorno/string.c.i
+
+.PHONY : src/buongiorno/string.i
+
+# target to preprocess a source file
+src/buongiorno/string.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/string.c.i
+.PHONY : src/buongiorno/string.c.i
+
+src/buongiorno/string.s: src/buongiorno/string.c.s
+
+.PHONY : src/buongiorno/string.s
+
+# target to generate assembly for a file
+src/buongiorno/string.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/string.c.s
+.PHONY : src/buongiorno/string.c.s
 
 src/main.o: src/main.c.o
 
@@ -274,15 +274,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... buongiorno"
 	@echo "... shell352"
-	@echo "... src/buongiorno/builtin.o"
-	@echo "... src/buongiorno/builtin.i"
-	@echo "... src/buongiorno/builtin.s"
-	@echo "... src/buongiorno/builtin/builtin_exit.o"
-	@echo "... src/buongiorno/builtin/builtin_exit.i"
-	@echo "... src/buongiorno/builtin/builtin_exit.s"
 	@echo "... src/buongiorno/command_utilities.o"
 	@echo "... src/buongiorno/command_utilities.i"
 	@echo "... src/buongiorno/command_utilities.s"
+	@echo "... src/buongiorno/path.o"
+	@echo "... src/buongiorno/path.i"
+	@echo "... src/buongiorno/path.s"
+	@echo "... src/buongiorno/string.o"
+	@echo "... src/buongiorno/string.i"
+	@echo "... src/buongiorno/string.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

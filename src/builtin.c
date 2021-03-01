@@ -1,12 +1,15 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "builtin.h"
-#include "builtin/builtin_exit.h"
+#include "buongiorno/builtin.h"
+
+#include "builtin_exit.c"
+#include "builtin_cd.c"
 
 const struct builtin_t builtin_cmds[BUILTIN_CMDS_LENGTH] = {
-    {"quit", &builtin_exit},
-    {"exit", &builtin_exit}
+    {"quit",    &builtin_exit},
+    {"exit",    &builtin_exit},
+    {"cd",      &builtin_cd}
 };
 
 builtin_callback_t *findBuiltinCmd(char *name)

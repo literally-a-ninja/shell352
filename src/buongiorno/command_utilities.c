@@ -10,7 +10,7 @@
 #include "command_utilities.h"
 
 char *g_arrPathDirs[] = {
-	"/usr/local/sbin", "/usr/local/bin", "/usr/sbin",
+    "/usr/local/sbin", "/usr/local/bin", "/usr/sbin",
 	"/usr/bin", "/sbin", "/bin"
 };
 
@@ -18,9 +18,9 @@ char *g_arrPathDirs[] = {
  * Returns -1 if not found. */
 int findSymbol(Cmd * cmd, char symbol) {
 	for (int i = 0; i < MAX_ARGS; i++) {
-        char* commandSymbol = cmd->symbols[i];
-        if (*commandSymbol == symbol)
-            return i;
+		char* commandSymbol = cmd->symbols[i];
+		if (*commandSymbol == symbol)
+			return i;
 	}
 	return -1;
 }
@@ -37,18 +37,18 @@ void parseCmd(Cmd * cmd) {
 	token = strtok(cmd -> tokenLine, " ");
 
 	while (token != NULL) {
-        if ( * token == '\n') {
-            cmd -> args[i] = NULL;
-        } else if ( * token == REDIRECT_OUT_OP || * token == REDIRECT_IN_OP ||
-            * token == PIPE_OP || * token == BG_OP) {
-            cmd -> symbols[i] = token;
-            cmd -> args[i] = NULL;
-        } else {
-            cmd -> args[i] = token;
-        }
+		if ( * token == '\n') {
+			cmd -> args[i] = NULL;
+		} else if ( * token == REDIRECT_OUT_OP || * token == REDIRECT_IN_OP ||
+			* token == PIPE_OP || * token == BG_OP) {
+			cmd -> symbols[i] = token;
+			cmd -> args[i] = NULL;
+		} else {
+			cmd -> args[i] = token;
+		}
 
-        token = strtok(NULL, " ");
-        i++;
+		token = strtok(NULL, " ");
+		i++;
 	}
 
 	cmd -> args[i] = NULL;
@@ -64,19 +64,19 @@ char* file_resolve(char* fileName)
 	if (file_exists(fileName)) return fileName;
 
 	unsigned index;
-    char *fullPath = 0;
+	char *fullPath = 0;
 	for (index = 0; index < 6; index++)
 	{
-        if (!fullPath) 
-            fullPath = (char*) malloc(64 * sizeof(char));
+		if (!fullPath) 
+			fullPath = (char*) malloc(64 * sizeof(char));
 
-        sprintf(fullPath, "%s/%s", g_arrPathDirs[index], fileName);
+		sprintf(fullPath, "%s/%s", g_arrPathDirs[index], fileName);
 
 		if (! file_exists(fullPath)) continue;
 
 		return fullPath;
 	}
 
-    free(fullPath);
+	free(fullPath);
 	return NULL;
 }

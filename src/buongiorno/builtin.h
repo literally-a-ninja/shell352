@@ -1,10 +1,13 @@
-#ifndef H_BUILTIN
-#define H_BUILTIN
+#ifndef HB_BUILTIN
+#define HB_BUILTIN
+
+#include "symbols.h"
+#include "common.h"
 
 #define BUILTIN_CMD_NOT_FOUND 0
-#define BUILTIN_CMDS_LENGTH 2
+#define BUILTIN_CMDS_LENGTH 3
 
-typedef int (builtin_callback_t)(); 
+typedef int (builtin_callback_t)(Cmd* cmd, struct environment *e); 
 
 /**
  * Defines a basic built-in cmd data structure.

@@ -1,5 +1,5 @@
-#ifndef H_SYMBOLS
-#define H_SYMBOLS
+#ifndef HB_SYMBOLS
+#define HB_SYMBOLS
 
 #include <sys/types.h>
 

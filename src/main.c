@@ -8,10 +8,13 @@
 #include <sys/wait.h>
 #include <signal.h>
 
-#include "buongiorno/builtin.h"
 #include "buongiorno/command_utilities.h"
 #include "buongiorno/symbols.h"
+#include "buongiorno/string.h"
+#include "buongiorno/path.h"
+#include "buongiorno/common.h"
 
+#include "builtin.c"
 #include "exec.c"
 
 pid_t g_pidFg = 0;
@@ -35,7 +38,7 @@ void signalHandler(int iSignal) {
     }
 
     // Do nothing.
-	if (g_pidFg == 0)           return;
+    if (g_pidFg == 0)           return;
 
     // Foward SIGTSTP to the currently running forground process.
     switch (iSignal) {
@@ -51,33 +54,37 @@ void signalHandler(int iSignal) {
 
 }
 
-int main(int argc, char *argv[], char * envp[])
+int main(int argc, char *argv[], char *envp[])
 {
     signal(SIGINT, &signalHandler);
-	signal(SIGTSTP, &signalHandler);
-	signal(SIGQUIT, &signalHandler);
-	signal(SIGTERM, &signalHandler);
+    signal(SIGTSTP, &signalHandler);
+    signal(SIGQUIT, &signalHandler);
+    signal(SIGTERM, &signalHandler);
 
-	while (1) {
-		printf("352> ");
-		fflush(stdout);
-		Cmd * cmd = (Cmd * ) calloc(1, sizeof(Cmd));
-		fgets(cmd -> line, MAX_LINE, stdin);
-		parseCmd(cmd);
+    struct environment *e = malloc(sizeof(struct environment));
+    e->m_ptrWd = malloc(sizeof(char) * PATH_MAX_DIR_LENGTH);
+    getcwd(e->m_ptrWd, PATH_MAX_DIR_LENGTH);
 
-		if (!cmd -> args[0]) {
-		  	free(cmd);
-		  	continue;
-		}
+    while (1)
+    {
+        printf("352 %s# ", e->m_ptrWd);
+        fflush(stdout);
+        Cmd * cmd = (Cmd * ) calloc(1, sizeof(Cmd));
+        fgets(cmd -> line, MAX_LINE, stdin);
+        parseCmd(cmd);
 
-		builtin_callback_t *cb;
-		if ((cb = findBuiltinCmd(cmd -> args[0])))
-            cb();
+        if (!cmd -> args[0]) {
+            free(cmd);
+            continue;
+        }
 
-		if (exec(cmd, envp) < 0)
-		{
-            fprintf(stderr, "%s: command not found.\n", cmd->args[0]);
-		}
+        // Built in command
+        builtin_callback_t *cb;
+        if ((cb = findBuiltinCmd(cmd -> args[0])))
+            cb(cmd, e);
+
+        else if (exec(cmd, envp) < 0)
+        fprintf(stderr, "%s: command not found.\n", cmd->args[0]);
 
 
 		/* TODO: Check on status of background processes. */
