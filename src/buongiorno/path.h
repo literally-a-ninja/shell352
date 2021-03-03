@@ -1,6 +1,7 @@
 #ifndef HB_PATH
 #define HB_PATH
 
+
 #define PATH_MAX_DIR_LENGTH 1024
 #define PATH_OPERATOR_HOME "~"
 #define PATH_OPERATOR_CURRENT_DIR "."
@@ -31,10 +32,7 @@ char *path_resolve(
 /**
  * Properly resolves both parent current directory references.
  **/
-char *path_normalise(
-        char *path,
-        unsigned len
-    );
+void path_normalise(char *path, unsigned len);
 
 /**
  * Resolves relative path using provided work directory.

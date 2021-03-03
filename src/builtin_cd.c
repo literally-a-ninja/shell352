@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/stat.h>
 
 #include "buongiorno/symbols.h"
 #include "buongiorno/path.h"
@@ -21,14 +22,26 @@ char *builtin_cd_get_target_dir(char **args) {
 }
 
 int builtin_cd(cmd* cmd, struct environment *e) {
-    char *pwd = getenv("PWD");
     char *targetDir = builtin_cd_get_target_dir(cmd->args);
     char *absPath = path_resolve_relative(
         targetDir,
         B_strlen(targetDir),
-        pwd,
-        B_strlen(pwd)
+        e->m_ptrWd,
+        B_strlen(e->m_ptrWd)
     );
+
+    struct stat stats;
+    stat(absPath, &stats);
+
+    if (! S_ISDIR(stats.st_mode))
+    {
+        fprintf(stderr, "cd: The directory \"%s\" does not exist.\n", targetDir);
+#ifdef DEBUG
+        fprintf(stderr, "D: \"%s\".\n", absPath);
+#endif
+        free(absPath);
+        return 1;
+    }
 
     e->m_ptrWd = B_strcpy(e->m_ptrWd, absPath);
     chdir(e->m_ptrWd);

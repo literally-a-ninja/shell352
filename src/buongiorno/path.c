@@ -12,20 +12,23 @@ void path_resolve_home(char *path, unsigned len)
     if (*path == PATH_OPERATOR_DIRECTORY)
         return;
 
-    printf("%s\n", path);
-
     // First directory is not expicitly "~" (E.g., ~this, ~that)
     char *firstDir = path_dir_first(path, len);
     if (strcmp(firstDir, PATH_OPERATOR_HOME))
         return;
 
-
     char *nextDir       = B_path_dir_next_ptr(path, len);
-    unsigned nextLen    = B_strlen(nextDir);
     char *homeDir       = getenv("HOME");
-    unsigned homeLen    = B_strlen(homeDir);
 
+    if (! nextDir) {
+        path = B_strcpy(path, homeDir);
+        return;
+    }
+
+    unsigned homeLen    = B_strlen(homeDir);
+    unsigned nextLen    = B_strlen(nextDir);
     unsigned blkSize  = sizeof(char) * homeLen + nextLen + (nextDir ? 1 : 0);
+
     path = realloc(path, blkSize);
     path = strncpy(path, homeDir, homeLen);
 
@@ -35,46 +38,48 @@ void path_resolve_home(char *path, unsigned len)
     }
 }
 
-char *path_normalise(char *absPath, unsigned len)
+void path_normalise(char *absPath, unsigned len)
 {
     // We only deal with absolute paths, return immediately.
     if (*absPath != '/')
     {
         fprintf(stderr, "E: Attempted to normalise relative path (%s)\n", absPath);
-        return absPath;
     }
+
+    char *absPathCpy = malloc(sizeof(char) * len + 1);
+    absPathCpy = strncpy(absPathCpy, absPath, len);
 
     char **stack = malloc(sizeof(char*) * len);
     char **ptrStack = stack;
     char *token;
-    for(token = strtok(absPath, "/"); token; token = strtok(NULL, absPath))
+    for(token = strtok(absPathCpy, "/"); token; token = strtok(NULL, "/"))
     {
         if (! strcmp(token, ".."))
         {
-            ptrStack = min(stack, ptrStack - 1);
+            ptrStack = max(stack, ptrStack - 1);
             *ptrStack = 0;
+            continue;
         }
         else if (! strcmp(token, "."))
         {
             continue;
         }
 
-        B_strcpy(*ptrStack++, token);
+        *(ptrStack++) = B_strcpy(NULL, token);
     }
     *ptrStack = 0;
 
     char *normalPath = malloc(sizeof(char) * PATH_MAX_DIR_LENGTH);
-    char *ptr = normalPath;
     for (ptrStack = stack; *ptrStack; ptrStack++)
     {
-        strcat(ptr, *ptrStack);
-        strncat(ptr, "/", 2);
-
+        strncat(normalPath, "/", 2);
+        strcat(normalPath, *ptrStack);
         free(*ptrStack);
     }
-    free(stack);
 
-    return normalPath;
+    absPath = B_strcpy(absPath, normalPath);
+    free(stack);
+    free(normalPath);
 }
 
 char *path_resolve_relative(
@@ -84,7 +89,6 @@ char *path_resolve_relative(
         unsigned workLen
     )
 {
-    char *absPtr;
     char *absPath = malloc(sizeof(char) * PATH_MAX_DIR_LENGTH);
     char *relativePathCpy = malloc(sizeof(char) * relativeLen);
     relativePathCpy = B_strncpy(relativePathCpy, relativePath, relativeLen);
@@ -102,13 +106,11 @@ char *path_resolve_relative(
     strncpy(absPath + workLen,      "/",                1);
     strncpy(absPath + workLen + 1,  relativePathCpy,    relativeLen);
 
+    free(relativePathCpy);
+
     // Resize proper span to avoid taking up too much space.
     unsigned absLen = B_strlen(absPath);
-
-    absPath = realloc(absPath, sizeof(char) * (absLen + 1));
-    // char *normalPath = path_normalise(absPath, absLen);
-    // printf("%s\n", normalPath);
-    free(relativePathCpy);
+    path_normalise(absPath, absLen);
 
     return absPath;
 }
@@ -144,7 +146,11 @@ char *path_dir_current(char *path, unsigned len)
 
 char *path_dir_first(char *path, unsigned len)
 {
-    char* ptr = B_path_dir_next_ptr(path, len);
+    char* ptr;
+
+    if (!(ptr = B_path_dir_next_ptr(path, len)))
+        return path;
+
     unsigned dist = ptr - path;
 
     char *firstDir = malloc(sizeof(char) * dist);
@@ -153,7 +159,9 @@ char *path_dir_first(char *path, unsigned len)
 
 char *path_dir_last(char *path, unsigned len)
 {
-    char* ptr = B_path_dir_last_ptr(path, len);
+    char* ptr;
+    if (!(ptr = B_path_dir_last_ptr(path, len)))
+        return path;
 
     // Calculate exactly what we need.
     unsigned dist = ptr - path;

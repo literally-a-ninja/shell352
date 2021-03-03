@@ -15,5 +15,6 @@ add_library(buongiorno STATIC ${LIB_BUONGIORNO_SOURCES})
 target_sources(buongiorno PRIVATE ${LIB_BUONGIORNO_HEADERS})
 target_link_libraries(buongiorno PRIVATE Threads::Threads)
 
+add_compile_definitions(shell352 DEBUG)
 add_executable(shell352 src/main.c)
 target_link_libraries(shell352 buongiorno)
