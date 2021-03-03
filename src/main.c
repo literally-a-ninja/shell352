@@ -1,3 +1,4 @@
+#include <pthread.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -53,7 +54,7 @@ void init()
     g_env = malloc(sizeof(struct environment));
     g_env->m_ptrWd = malloc(sizeof(char) * PATH_MAX_DIR_LENGTH);
     getcwd(g_env->m_ptrWd, PATH_MAX_DIR_LENGTH);
-    g_env->m_ptrWd = realloc(g_env->m_ptrWd, sizeof(char) * B_strlen(g_env->m_ptrWd));
+    // g_env->m_ptrWd = realloc(&g_env->m_ptrWd, sizeof(char) * B_strlen(g_env->m_ptrWd));
 
     g_pidFg = 0;
     g_cmd = (cmd *) malloc(sizeof(struct cmd));
@@ -61,9 +62,15 @@ void init()
 
 void shutdown()
 {
-    pthread_cancel(g_inputThread);
     free(g_cmd);
+    free(g_env->m_ptrWd);
     free(g_env);
+
+    pthread_join(g_inputThread, NULL);
+
+#ifdef DEBUG
+    printf("D: shutdown() : Successfully freed all resources, returning to main() for termination.\n");
+#endif
 }
 
 void command(char **envp)
@@ -85,35 +92,37 @@ void command(char **envp)
 
 void *mainInput(void *vargp)
 {
-    while (1) {
-        if (g_shellStatus & SHELL_DIE)
-            pthread_exit(0);
-
+    while (! feof(stdin)) {
         printf("352 %s# ", g_env->m_ptrWd);
         fflush(stdout);
         fgets(g_cmd->line, MAX_LINE, stdin);
-
         parseCmd(g_cmd);
 
         // Reject blank lines
-        if (!g_cmd->args[0])      pthread_exit(0);
+        if (!g_cmd->args[0]) continue;
 
         command((char**) vargp);
     }
+
+    pthread_exit(0);
 }
 
 int main(int argc, char *argv[], char *envp[])
 {
     init();
 
-    g_inputThread = 0;
-    pthread_create(&g_inputThread, NULL, mainInput, envp);
+    pthread_t g_inputThread;
+    pthread_create(&g_inputThread, NULL, &mainInput, envp);
 
-    while (! (g_shellStatus & SHELL_DIE))
+    while (1)
     {
         // User closed stdin (typically means we should exit)
-        if (feof(stdin))
-            g_shellStatus |= SHELL_DIE;
+        if (g_shellStatus & SHELL_DIE) {
+#ifdef DEBUG
+            printf("D: SHELL_DIE caught\n");
+#endif
+            break;
+        }
 	}
 
     shutdown();
