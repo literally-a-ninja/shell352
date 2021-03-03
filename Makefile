@@ -183,6 +183,33 @@ src/buongiorno/command_utilities.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/command_utilities.c.s
 .PHONY : src/buongiorno/command_utilities.c.s
 
+src/buongiorno/file.o: src/buongiorno/file.c.o
+
+.PHONY : src/buongiorno/file.o
+
+# target to build an object file
+src/buongiorno/file.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/file.c.o
+.PHONY : src/buongiorno/file.c.o
+
+src/buongiorno/file.i: src/buongiorno/file.c.i
+
+.PHONY : src/buongiorno/file.i
+
+# target to preprocess a source file
+src/buongiorno/file.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/file.c.i
+.PHONY : src/buongiorno/file.c.i
+
+src/buongiorno/file.s: src/buongiorno/file.c.s
+
+.PHONY : src/buongiorno/file.s
+
+# target to generate assembly for a file
+src/buongiorno/file.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/file.c.s
+.PHONY : src/buongiorno/file.c.s
+
 src/buongiorno/path.o: src/buongiorno/path.c.o
 
 .PHONY : src/buongiorno/path.o
@@ -277,6 +304,9 @@ help:
 	@echo "... src/buongiorno/command_utilities.o"
 	@echo "... src/buongiorno/command_utilities.i"
 	@echo "... src/buongiorno/command_utilities.s"
+	@echo "... src/buongiorno/file.o"
+	@echo "... src/buongiorno/file.i"
+	@echo "... src/buongiorno/file.s"
 	@echo "... src/buongiorno/path.o"
 	@echo "... src/buongiorno/path.i"
 	@echo "... src/buongiorno/path.s"

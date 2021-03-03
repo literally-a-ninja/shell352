@@ -7,7 +7,7 @@
 #include "buongiorno/symbols.h"
 #include "buongiorno/command_utilities.h"
 
-int exec(Cmd* cmd, char* envp[])
+int exec(cmd* cmd, char* envp[])
 {
 	char* fileName = cmd->args[0];
 	char* fullPath;

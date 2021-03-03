@@ -20,7 +20,7 @@ char *builtin_cd_get_target_dir(char **args) {
     return fallback;
 }
 
-int builtin_cd(Cmd* cmd, struct environment *e) {
+int builtin_cd(cmd* cmd, struct environment *e) {
     char *pwd = getenv("PWD");
     char *targetDir = builtin_cd_get_target_dir(cmd->args);
     char *absPath = path_resolve_relative(

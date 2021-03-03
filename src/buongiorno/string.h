@@ -8,7 +8,6 @@
  **/
 size_t B_strlen(char *str);
 
-
 /**
  * Copies from src to dest with auto resize
  **/

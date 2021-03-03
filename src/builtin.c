@@ -15,7 +15,7 @@ const struct builtin_t builtin_cmds[BUILTIN_CMDS_LENGTH] = {
 builtin_callback_t *findBuiltinCmd(char *name)
 {
     unsigned index;
-    for (; index < BUILTIN_CMDS_LENGTH; index++)
+    for (index = 0; index < BUILTIN_CMDS_LENGTH; index++)
     {
         if (! strcmp(builtin_cmds[index].name, name))
             return builtin_cmds[index].cb;

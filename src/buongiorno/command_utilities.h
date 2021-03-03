@@ -5,13 +5,13 @@
 
 /* Finds the index of the first occurance of symbol in cmd->symbols.
  * Returns -1 if not found. */
-int findSymbol(Cmd * cmd, char symbol);
+int findSymbol(cmd * cmd, char symbol);
 
 
 /* Parses the command string contained in cmd->line.
  * Assumes all fields in cmd (except cmd->line) are initailized to zero.
  * On return, all fields of cmd are appropriatly populated. */
-void parseCmd(Cmd * cmd);
+void parseCmd(cmd * cmd);
 
 /**
  * Returns 1 if absolute path exists, 0 if missing.

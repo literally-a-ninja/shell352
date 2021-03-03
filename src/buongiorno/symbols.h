@@ -5,6 +5,8 @@
 
 #define MAX_LINE 80
 #define MAX_ARGS (MAX_LINE/2 + 1)
+
+#define CARRAIGE_RETURN '\n'
 #define REDIRECT_OUT_OP '>'
 #define REDIRECT_IN_OP '<'
 #define PIPE_OP '|'
@@ -15,7 +17,7 @@
 extern pid_t g_pidFg;
 
 /* Holds a single command. */
-typedef struct Cmd {
+typedef struct cmd {
   /* The command as input by the user. */
   char line[MAX_LINE + 1];
   /* The command as null terminated tokens. */
@@ -27,6 +29,6 @@ typedef struct Cmd {
   /* The process id of the executing command. */
   pid_t pid;
   /* TODO: Additional fields may be helpful. */
-} Cmd;
+} cmd;
 
 #endif

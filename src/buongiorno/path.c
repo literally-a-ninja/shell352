@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "common.h"
 #include "path.h"
 #include "string.h"
 
@@ -11,10 +12,13 @@ void path_resolve_home(char *path, unsigned len)
     if (*path == PATH_OPERATOR_DIRECTORY)
         return;
 
+    printf("%s\n", path);
+
     // First directory is not expicitly "~" (E.g., ~this, ~that)
     char *firstDir = path_dir_first(path, len);
     if (strcmp(firstDir, PATH_OPERATOR_HOME))
         return;
+
 
     char *nextDir       = B_path_dir_next_ptr(path, len);
     unsigned nextLen    = B_strlen(nextDir);
@@ -31,55 +35,43 @@ void path_resolve_home(char *path, unsigned len)
     }
 }
 
-
 char *path_normalise(char *absPath, unsigned len)
 {
     // We only deal with absolute paths, return immediately.
     if (*absPath != '/')
     {
         fprintf(stderr, "E: Attempted to normalise relative path (%s)\n", absPath);
-        exit(0);
+        return absPath;
     }
 
     char **stack = malloc(sizeof(char*) * len);
     char **ptrStack = stack;
-
-    char *c;
-    unsigned l;
-    for (
-            c = absPath;
-            *c;
-            l = B_strlen(c), c = B_path_dir_next_ptr(c+1, l)
-        )
+    char *token;
+    for(token = strtok(absPath, "/"); token; token = strtok(NULL, absPath))
     {
-        char *dirName = path_dir_first(c, l);
-
-        // Parent references move the stack ptr back one and clears the previous dirname.
-        if (! strcmp(dirName, ".."))
+        if (! strcmp(token, ".."))
         {
-            // Too many parent references, bail and user will get the proper error.
-            if (ptrStack == stack)
-                return absPath;
-
-            *--ptrStack = 0;
+            ptrStack = min(stack, ptrStack - 1);
+            *ptrStack = 0;
+        }
+        else if (! strcmp(token, "."))
+        {
+            continue;
         }
 
-        // Skips current references
-        if (! strcmp(dirName, "."))                 continue;
-        // Skips repeating "/"s which aren't root
-        if (! B_strlen(dirName) && c != absPath)    continue;
-
-        *ptrStack++ = dirName;
+        B_strcpy(*ptrStack++, token);
     }
+    *ptrStack = 0;
 
-    char **p;
-    char *normalPath = malloc(sizeof(char));
-    for (p = stack; ptrStack - p; p++)
+    char *normalPath = malloc(sizeof(char) * PATH_MAX_DIR_LENGTH);
+    char *ptr = normalPath;
+    for (ptrStack = stack; *ptrStack; ptrStack++)
     {
-        normalPath = B_strcpy(normalPath, *p);
-        normalPath = B_strcpy(normalPath, "/");
-    }
+        strcat(ptr, *ptrStack);
+        strncat(ptr, "/", 2);
 
+        free(*ptrStack);
+    }
     free(stack);
 
     return normalPath;
@@ -96,7 +88,6 @@ char *path_resolve_relative(
     char *absPath = malloc(sizeof(char) * PATH_MAX_DIR_LENGTH);
     char *relativePathCpy = malloc(sizeof(char) * relativeLen);
     relativePathCpy = B_strncpy(relativePathCpy, relativePath, relativeLen);
-
 
     path_resolve_home(relativePathCpy, relativeLen);
 
@@ -115,8 +106,8 @@ char *path_resolve_relative(
     unsigned absLen = B_strlen(absPath);
 
     absPath = realloc(absPath, sizeof(char) * (absLen + 1));
-    char *normalPath = path_normalise(absPath, absLen);
-    printf("%s\n", normalPath);
+    // char *normalPath = path_normalise(absPath, absLen);
+    // printf("%s\n", normalPath);
     free(relativePathCpy);
 
     return absPath;
@@ -138,30 +129,6 @@ char *path_resolve_dir_symb(char *dirName, unsigned dirLen)
         return dirName;
 }
 
-char *B_path_dir_last_ptr(char *path, unsigned len)
-{
-    char *ptr;
-
-    unsigned offset = (len - 1);
-    for(ptr = path + offset; ptr - path && *ptr == PATH_OPERATOR_DIRECTORY; ptr--);
-
-    // We're at the root of existance, do nothing.
-    if (ptr == path) return 0;
-
-    return ptr;
-}
-
-
-char *B_path_dir_next_ptr(char *path, unsigned len)
-{
-    char *ptr;
-    for(ptr = path; *ptr && *ptr == PATH_OPERATOR_DIRECTORY; ptr++);
-
-    // We're at the root of existance, do nothing.
-    if (ptr == path) return 0;
-
-    return ptr;
-}
 
 char *path_dir_current(char *path, unsigned len)
 {
@@ -204,38 +171,15 @@ void path_mod_dir_last(char *path, unsigned len)
         *ptr = 0;
 }
 
-struct path_list *B_path_str_to_list(char *path, unsigned len)
+char *B_path_dir_next_ptr(char *path, unsigned len)
 {
-    unsigned i;
-    char *ptr = path;
-    unsigned arrAllocSize = 0;
-    char **arr = malloc(sizeof(char*) * arrAllocSize);
+    char *ptr;
+    for(ptr = path; *ptr && *ptr == PATH_OPERATOR_DIRECTORY; ptr++);
 
-    for (i = 0; i < len; i++)
-    {
-        // Either at EOS or found dir operator
-        if (i + 1 == len || *(path + i) == PATH_OPERATOR_DIRECTORY)
-        {
-            unsigned length = 0
-                + (/* dist from path start */ i)
-                - (/* dir start - path start */ ptr - path)
-                + (/* ptr offset by 1 */ 1);
+    // We're at the root of existance, do nothing.
+    if (ptr == path) return 0;
 
-            char *dirName = malloc(sizeof(char) * length);
-            strncpy(dirName, ptr, length);
-
-            arr[arrAllocSize] = dirName;
-
-            ptr = path + i + 1;
-            arr = realloc(arr, sizeof(char*) * ++arrAllocSize);
-        }
-    }
-
-    struct path_list *list = malloc(sizeof(struct path_list));
-    list->m_arrDirectories = arr;
-    list->m_iDirectoryCount = arrAllocSize - 1;
-
-    return list;
+    return ptr;
 }
 
 char *B_path_list_to_str(struct path_list *list)
@@ -256,4 +200,17 @@ char *B_path_list_to_str(struct path_list *list)
     }
 
     return path;
+}
+
+char *B_path_dir_last_ptr(char *path, unsigned len)
+{
+    char *ptr;
+
+    unsigned offset = (len - 1);
+    for(ptr = path + offset; ptr - path && *ptr == PATH_OPERATOR_DIRECTORY; ptr--);
+
+    // We're at the root of existance, do nothing.
+    if (ptr == path) return 0;
+
+    return ptr;
 }
