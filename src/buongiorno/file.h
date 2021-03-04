@@ -6,16 +6,16 @@
 /**
  * Search directories
  **/
-extern char *g_pathDirectories[];
+extern char *g_pathDirectories [];
 
 /**
  * Returns 1 if file exists
  **/
-int file_exists(char* fileName);
+int file_exists (char *fileName);
 
 /**
  * Returns absolute path to file
  **/
-char* file_resolve(char* fileName);
+char *file_resolve (char *fileName);
 
 #endif

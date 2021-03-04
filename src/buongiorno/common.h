@@ -4,7 +4,8 @@
 #define min(x, y) ((x < y) ? x : y)
 #define max(x, y) ((x < y) ? y : x)
 
-struct environment {
+struct environment
+{
     char *m_ptrWd;
 };
 

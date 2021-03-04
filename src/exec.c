@@ -1,44 +1,45 @@
-#include <unistd.h>
-#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
-#include "buongiorno/symbols.h"
 #include "buongiorno/command_utilities.h"
+#include "buongiorno/symbols.h"
 
-int exec(cmd* cmd, char* envp[])
+int exec (cmd *cmd, char *envp [])
 {
-	char* fileName = cmd->args[0];
-	char* fullPath;
+    char *fileName = cmd->args [0];
+    char *fullPath;
 
-	// Doesn't exist, exit with -1 status
-	if (! (fullPath = file_resolve(fileName)))
-		return -1;
+    // Doesn't exist, exit with -1 status
+    if (!(fullPath = file_resolve (fileName)))
+        return -1;
 
-	int procId;
-	if ((procId = fork()) < 0) return 1;
+    int procId;
+    if ((procId = fork ()) < 0)
+        return 1;
 
-	// Parent
-	if (procId)
-	{
+    // Parent
+    if (procId)
+    {
         g_pidFg = procId;
-		wait(NULL);
-	}
+        wait (NULL);
+    }
 
-	// Child
-	else 
-	{
-		execve(fullPath, cmd->args, envp);
-	}
+    // Child
+    else
+    {
+        execve (fullPath, cmd->args, envp);
+    }
 
-    free(fullPath);
+    free (fullPath);
 
-	// if (findSymbol(cmd, BG_OP) != -1) {
-	// 	/* TODO: Run command in background. */
-	// } else {
-	// 	/* TODO: Run command in foreground. */
-	// }
+    // if (findSymbol(cmd, BG_OP) != -1) {
+    // 	/* TODO: Run command in background. */
+    // } else {
+    // 	/* TODO: Run command in foreground. */
+    // }
 
     return 0;
 }
