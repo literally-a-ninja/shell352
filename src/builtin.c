@@ -6,8 +6,13 @@
 #include "builtin_cd.c"
 #include "builtin_exit.c"
 
-const struct builtin_t builtin_cmds [BUILTIN_CMDS_LENGTH] = {
-    {"quit", &builtin_exit}, {"exit", &builtin_exit}, {"cd", &builtin_cd}};
+// clang-format off
+const struct builtin_t builtin_cmds[BUILTIN_CMDS_LENGTH] = {
+    {"quit",    &builtin_exit},
+    {"exit",    &builtin_exit},
+    {"cd",      &builtin_cd}
+};
+// clang-format on
 
 builtin_callback_t *findBuiltinCmd (char *name)
 {
