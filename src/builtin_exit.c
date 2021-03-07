@@ -1,8 +1,6 @@
 #include <stdlib.h>
 
 #include "buongiorno/common.h"
-#include "buongiorno/symbols.h"
-
 #include "shell352.h"
 
 int builtin_exit (cmd *cmd, struct environment *e)

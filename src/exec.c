@@ -4,8 +4,9 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
-#include "buongiorno/command_utilities.h"
-#include "buongiorno/symbols.h"
+#include "buongiorno/common.h"
+#include "buongiorno/command.h"
+#include "buongiorno/file.h"
 
 int exec (cmd *cmd, char *envp [])
 {

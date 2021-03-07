@@ -9,11 +9,12 @@
 #include <sys/wait.h>
 
 // buongiornolib gets loaded first!
-#include "builtin.c"
-#include "buongiorno/command_utilities.h"
+#include "buongiorno/command.h"
 #include "buongiorno/common.h"
 #include "buongiorno/path.h"
 #include "buongiorno/string.h"
+
+#include "builtin.c"
 #include "exec.c"
 #include "shell352.h"
 
@@ -25,15 +26,18 @@ void recieve (int iSignal)
     case SIGTSTP:
     case SIGTERM:
     case SIGQUIT:
-        if (!g_pidFg)
-            break;
+        if (!g_pidFg) break;
         kill (g_pidFg, iSignal);
         break;
 
     /* Double print new line to let the user know we're done. */
     case SIGINT:
-        printf ("\n");
-        g_shellStatus |= SHELL_DIE;
+        if (g_pidFg)
+            kill (g_pidFg, iSignal);
+        else {
+            printf ("\n");
+            g_shellStatus |= SHELL_DIE;
+        }
         break;
 
     default:
@@ -101,7 +105,7 @@ void *mainInput (void *vargp)
         printf ("352 %s# ", g_env->m_ptrWd);
         fflush (stdout);
         fgets (g_cmd->line, MAX_LINE, stdin);
-        parseCmd (g_cmd);
+        B_parseCmd (g_cmd);
 
         // Reject blank lines
         if (!g_cmd->args [0])

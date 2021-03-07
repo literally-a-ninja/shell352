@@ -1,18 +1,28 @@
 [
 {
   "directory": "/home/johnny/Documents/Repositories/CS352/shell",
+  "command": "/usr/bin/cc -DDEBUG -Dshell352  -g -o CMakeFiles/grammar.dir/src/main_grammar.c.o -c /home/johnny/Documents/Repositories/CS352/shell/src/main_grammar.c",
+  "file": "/home/johnny/Documents/Repositories/CS352/shell/src/main_grammar.c"
+},
+{
+  "directory": "/home/johnny/Documents/Repositories/CS352/shell",
   "command": "/usr/bin/cc -DDEBUG -Dshell352  -g -o CMakeFiles/shell352.dir/src/main.c.o -c /home/johnny/Documents/Repositories/CS352/shell/src/main.c",
   "file": "/home/johnny/Documents/Repositories/CS352/shell/src/main.c"
 },
 {
   "directory": "/home/johnny/Documents/Repositories/CS352/shell",
-  "command": "/usr/bin/cc -DDEBUG -Dshell352  -g -o CMakeFiles/buongiorno.dir/src/buongiorno/command_utilities.c.o -c /home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/command_utilities.c",
-  "file": "/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/command_utilities.c"
+  "command": "/usr/bin/cc -DDEBUG -Dshell352  -g -o CMakeFiles/buongiorno.dir/src/buongiorno/command.c.o -c /home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/command.c",
+  "file": "/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/command.c"
 },
 {
   "directory": "/home/johnny/Documents/Repositories/CS352/shell",
   "command": "/usr/bin/cc -DDEBUG -Dshell352  -g -o CMakeFiles/buongiorno.dir/src/buongiorno/file.c.o -c /home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/file.c",
   "file": "/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/file.c"
+},
+{
+  "directory": "/home/johnny/Documents/Repositories/CS352/shell",
+  "command": "/usr/bin/cc -DDEBUG -Dshell352  -g -o CMakeFiles/buongiorno.dir/src/buongiorno/grammar.c.o -c /home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/grammar.c",
+  "file": "/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/grammar.c"
 },
 {
   "directory": "/home/johnny/Documents/Repositories/CS352/shell",

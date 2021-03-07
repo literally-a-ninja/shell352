@@ -5,7 +5,6 @@
 #include "symbols.h"
 
 #define BUILTIN_CMD_NOT_FOUND 0
-#define BUILTIN_CMDS_LENGTH 3
 
 typedef int (builtin_callback_t) (cmd *cmd, struct environment *e);
 

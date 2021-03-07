@@ -7,7 +7,6 @@
 #include "buongiorno/common.h"
 #include "buongiorno/path.h"
 #include "buongiorno/string.h"
-#include "buongiorno/symbols.h"
 
 #define BUILTIN_CD_FALLBACK_DIR "~"
 

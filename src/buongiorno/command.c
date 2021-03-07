@@ -5,10 +5,10 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "command_utilities.h"
+#include "command.h"
 #include "symbols.h"
 
-int findSymbol (cmd *cmd, char symbol)
+int B_findSymbol (cmd *cmd, char symbol)
 {
     for (int i = 0; i < MAX_ARGS; i++)
     {
@@ -19,7 +19,7 @@ int findSymbol (cmd *cmd, char symbol)
     return -1;
 }
 
-void parseCmd (cmd *cmd)
+void B_parseCmd (cmd *cmd)
 {
     strcpy (cmd->tokenLine, cmd->line);
     strtok (cmd->tokenLine, "\n");

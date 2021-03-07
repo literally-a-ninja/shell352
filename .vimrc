@@ -1,3 +1,1 @@
-set tabstop=1 
-set shiftwidth=1
-set expandtab
+nmap <F10> :make<CR>
