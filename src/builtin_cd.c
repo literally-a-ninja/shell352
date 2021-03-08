@@ -21,7 +21,7 @@ char *builtin_cd_get_target_dir (char **args)
     return fallback;
 }
 
-int builtin_cd (cmd *cmd, struct environment *e)
+int builtin_cd (cmd_t *cmd, struct environment *e)
 {
     char *targetDir = builtin_cd_get_target_dir (cmd->args);
     char *absPath   = path_resolve_relative (targetDir, B_strlen (targetDir),

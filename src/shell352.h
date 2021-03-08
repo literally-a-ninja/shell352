@@ -3,19 +3,23 @@
 
 #define SHELL_DIE 1 << 0
 
-#include "buongiorno/symbols.h"
 #include <pthread.h>
 #include <unistd.h>
+
+#include "buongiorno/grammar.h"
 
 /**
  * Global shell handlers
  **/
 
 pid_t g_pidFg;
-struct cmd *g_cmd;
+struct run_t *g_run;
 struct environment *g_env;
 int g_shellStatus;
 pthread_t g_inputThread;
+
+/* The process if of the currently executing forground command, or 0. */
+extern pid_t g_pidFg;
 
 /**
  * Lifecycle callbacks
@@ -34,7 +38,7 @@ void recieve (int iSignal);
 /**
  * shell352 : Called on command acceptance
  **/
-void command (char **envp);
+void command (cmd_t *cmd, char **envp);
 
 /**
  * shell352 : Called on shell pre-shutdown

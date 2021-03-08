@@ -29,4 +29,9 @@ unsigned B_strpartial (char *haystack, char *needle, unsigned needleLen);
 unsigned B_strpartial_at (char *haystack, char *needle, unsigned needleLen,
                           unsigned offset);
 
+/**
+ * Returns true if string is potentially a valid redirect.
+ **/
+unsigned B_str_isredirect (char *haystack);
+
 #endif

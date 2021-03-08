@@ -2,11 +2,10 @@
 #define HB_BUILTIN
 
 #include "common.h"
-#include "symbols.h"
 
 #define BUILTIN_CMD_NOT_FOUND 0
 
-typedef int (builtin_callback_t) (cmd *cmd, struct environment *e);
+typedef int (builtin_callback_t) (cmd_t *cmd, struct environment *e);
 
 /**
  * Defines a basic built-in cmd data structure.

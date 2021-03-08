@@ -30,6 +30,20 @@ char *B_strncpy (char *dest, char *src, size_t n)
     return dest;
 }
 
+unsigned B_str_isredirect (char *haystack)
+{
+    char c     = *haystack;
+    char bPipe = '0' <= c && '2' >= c;
+
+    c = *(haystack + bPipe);
+    if (!(c == '<' || c == '>'))
+    {
+        return 0;
+    }
+
+    return 1;
+}
+
 unsigned B_strpartial (char *haystack, char *needle, unsigned needleLen)
 {
     return B_strpartial_at (haystack, needle, needleLen, 0);

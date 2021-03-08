@@ -169,33 +169,6 @@ buongiorno/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/build
 .PHONY : buongiorno/fast
 
-src/buongiorno/command.o: src/buongiorno/command.c.o
-
-.PHONY : src/buongiorno/command.o
-
-# target to build an object file
-src/buongiorno/command.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/command.c.o
-.PHONY : src/buongiorno/command.c.o
-
-src/buongiorno/command.i: src/buongiorno/command.c.i
-
-.PHONY : src/buongiorno/command.i
-
-# target to preprocess a source file
-src/buongiorno/command.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/command.c.i
-.PHONY : src/buongiorno/command.c.i
-
-src/buongiorno/command.s: src/buongiorno/command.c.s
-
-.PHONY : src/buongiorno/command.s
-
-# target to generate assembly for a file
-src/buongiorno/command.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/command.c.s
-.PHONY : src/buongiorno/command.c.s
-
 src/buongiorno/file.o: src/buongiorno/file.c.o
 
 .PHONY : src/buongiorno/file.o
@@ -249,6 +222,33 @@ src/buongiorno/grammar.s: src/buongiorno/grammar.c.s
 src/buongiorno/grammar.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/grammar.c.s
 .PHONY : src/buongiorno/grammar.c.s
+
+src/buongiorno/parse.o: src/buongiorno/parse.c.o
+
+.PHONY : src/buongiorno/parse.o
+
+# target to build an object file
+src/buongiorno/parse.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/parse.c.o
+.PHONY : src/buongiorno/parse.c.o
+
+src/buongiorno/parse.i: src/buongiorno/parse.c.i
+
+.PHONY : src/buongiorno/parse.i
+
+# target to preprocess a source file
+src/buongiorno/parse.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/parse.c.i
+.PHONY : src/buongiorno/parse.c.i
+
+src/buongiorno/parse.s: src/buongiorno/parse.c.s
+
+.PHONY : src/buongiorno/parse.s
+
+# target to generate assembly for a file
+src/buongiorno/parse.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/buongiorno.dir/build.make CMakeFiles/buongiorno.dir/src/buongiorno/parse.c.s
+.PHONY : src/buongiorno/parse.c.s
 
 src/buongiorno/path.o: src/buongiorno/path.c.o
 
@@ -369,15 +369,15 @@ help:
 	@echo "... buongiorno"
 	@echo "... grammar"
 	@echo "... shell352"
-	@echo "... src/buongiorno/command.o"
-	@echo "... src/buongiorno/command.i"
-	@echo "... src/buongiorno/command.s"
 	@echo "... src/buongiorno/file.o"
 	@echo "... src/buongiorno/file.i"
 	@echo "... src/buongiorno/file.s"
 	@echo "... src/buongiorno/grammar.o"
 	@echo "... src/buongiorno/grammar.i"
 	@echo "... src/buongiorno/grammar.s"
+	@echo "... src/buongiorno/parse.o"
+	@echo "... src/buongiorno/parse.i"
+	@echo "... src/buongiorno/parse.s"
 	@echo "... src/buongiorno/path.o"
 	@echo "... src/buongiorno/path.i"
 	@echo "... src/buongiorno/path.s"

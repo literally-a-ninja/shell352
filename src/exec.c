@@ -5,12 +5,12 @@
 #include <unistd.h>
 
 #include "buongiorno/common.h"
-#include "buongiorno/command.h"
 #include "buongiorno/file.h"
+#include "shell352.h"
 
-int exec (cmd *cmd, char *envp [])
+int exec (cmd_t *cmd, char *envp [])
 {
-    char *fileName = cmd->args [0];
+    char *fileName = cmd->executable;
     char *fullPath;
 
     // Doesn't exist, exit with -1 status

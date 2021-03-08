@@ -9,8 +9,9 @@
 #include <sys/wait.h>
 
 // buongiornolib gets loaded first!
-#include "buongiorno/command.h"
 #include "buongiorno/common.h"
+#include "buongiorno/grammar.h"
+#include "buongiorno/parse.h"
 #include "buongiorno/path.h"
 #include "buongiorno/string.h"
 
@@ -26,7 +27,8 @@ void recieve (int iSignal)
     case SIGTSTP:
     case SIGTERM:
     case SIGQUIT:
-        if (!g_pidFg) break;
+        if (!g_pidFg)
+            break;
         kill (g_pidFg, iSignal);
         break;
 
@@ -34,7 +36,8 @@ void recieve (int iSignal)
     case SIGINT:
         if (g_pidFg)
             kill (g_pidFg, iSignal);
-        else {
+        else
+        {
             printf ("\n");
             g_shellStatus |= SHELL_DIE;
         }
@@ -63,12 +66,12 @@ void init ()
     // B_strlen(g_env->m_ptrWd));
 
     g_pidFg = 0;
-    g_cmd   = (cmd *)malloc (sizeof (struct cmd));
+    g_run   = malloc (sizeof (run_t));
 }
 
 void shutdown ()
 {
-    free (g_cmd);
+    free (g_run);
     free (g_env->m_ptrWd);
     free (g_env);
 
@@ -81,16 +84,18 @@ void shutdown ()
 #endif
 }
 
-void command (char **envp)
+void command (cmd_t *cmd, char **envp)
 {
     builtin_callback_t *cb;
-    if ((cb = findBuiltinCmd (g_cmd->args [0])))
-        cb (g_cmd, g_env);
+    if ((cb = findBuiltinCmd (cmd->executable)))
+        cb (cmd, g_env);
 
-    switch (exec (g_cmd, envp))
+    printf("%sa\n", cmd->executable);
+
+    switch (exec (cmd, envp))
     {
     case 1:
-        fprintf (stderr, "%s: command not found.\n", g_cmd->args [0]);
+        fprintf (stderr, "%s: command not found.\n", cmd->executable);
         break;
 
     default:
@@ -100,18 +105,26 @@ void command (char **envp)
 
 void *mainInput (void *vargp)
 {
+    char input [80];
     while (!feof (stdin))
     {
         printf ("352 %s# ", g_env->m_ptrWd);
         fflush (stdout);
-        fgets (g_cmd->line, MAX_LINE, stdin);
-        B_parseCmd (g_cmd);
+        fgets (input, 80, stdin);
+
+        array_t *a = B_parse_input_runs (input, 80);
 
         // Reject blank lines
-        if (!g_cmd->args [0])
+        if (!a->length)
             continue;
 
-        command ((char **)vargp);
+        run_t *run       = ((run_t *)a->array [0]);
+        cmd_t **commands = run->commands;
+        unsigned c;
+        for (c = 0; c < run->commands_size; c++)
+        {
+            command (commands [c], (char **)vargp);
+        }
     }
 
     pthread_exit (0);

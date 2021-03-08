@@ -1,19 +1,10 @@
-#ifndef HB_SYMBOLS
-#define HB_SYMBOLS
+#ifndef HB_SYMBOLS_DEPRECATED
+#define HB_SYMBOLS_DEPRECATED
 
 #include <sys/types.h>
 
 #define MAX_LINE 80
 #define MAX_ARGS (MAX_LINE / 2 + 1)
-
-#define CARRAIGE_RETURN '\n'
-#define REDIRECT_OUT_OP '>'
-#define REDIRECT_IN_OP '<'
-#define PIPE_OP '|'
-#define BG_OP '&'
-
-/* The process if of the currently executing forground command, or 0. */
-extern pid_t g_pidFg;
 
 /* Holds a single command. */
 typedef struct cmd
@@ -45,4 +36,5 @@ typedef struct job_t
     pid_t pid;
     /* TODO: Additional fields may be helpful. */
 } job_t;
+
 #endif
