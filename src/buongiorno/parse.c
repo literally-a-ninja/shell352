@@ -74,6 +74,7 @@ void B_parse_input_cmds (char *input, unsigned length, run_t *run)
     char *ptrContext;
 
     cmd_t *cmd = B_ctor_cmd_t ();
+
     for (ptr = input, ptrContext = 0; *ptr; ptr++)
     {
         unsigned bNextToLast = !*(ptr + 1);

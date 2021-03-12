@@ -110,9 +110,6 @@ void *mainInput (void *vargp)
 int main (int argc, char *argv [], char *envp [])
 {
     init ();
-    mainInput (envp);
-
-    return 0;
 
     pthread_t g_inputThread;
     pthread_create (&g_inputThread, NULL, &mainInput, envp);
