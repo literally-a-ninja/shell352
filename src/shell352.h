@@ -4,9 +4,13 @@
 #define SHELL_DIE 1 << 0
 
 #include <pthread.h>
+#include <stdio.h>
 #include <unistd.h>
 
 #include "buongiorno/grammar.h"
+
+#define IREAD 0
+#define IWRITE 1
 
 /**
  * Global shell handlers

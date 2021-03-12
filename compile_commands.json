@@ -1,6 +1,11 @@
 [
 {
   "directory": "/home/johnny/Documents/Repositories/CS352/shell",
+  "command": "/usr/bin/cc -DDEBUG -Dshell352  -g -o CMakeFiles/pipes.dir/src/main_pipes.c.o -c /home/johnny/Documents/Repositories/CS352/shell/src/main_pipes.c",
+  "file": "/home/johnny/Documents/Repositories/CS352/shell/src/main_pipes.c"
+},
+{
+  "directory": "/home/johnny/Documents/Repositories/CS352/shell",
   "command": "/usr/bin/cc -DDEBUG -Dshell352  -g -o CMakeFiles/grammar.dir/src/main_grammar.c.o -c /home/johnny/Documents/Repositories/CS352/shell/src/main_grammar.c",
   "file": "/home/johnny/Documents/Repositories/CS352/shell/src/main_grammar.c"
 },

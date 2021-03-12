@@ -25,7 +25,7 @@ array_t *B_parse_input_runs (char *input, unsigned length)
             *ptr == ';'
 
             /* Matches && */
-            || (!bNextToLast && *ptr == *(ptr + 1) && *ptr == '&')
+            // || (!bNextToLast && *ptr == *(ptr + 1) && *ptr == '&')
 
             /* Matches end of input */
             || bNextToLast)
@@ -39,9 +39,8 @@ array_t *B_parse_input_runs (char *input, unsigned length)
 
             unsigned subLength = ptr - ptrContext + (bNextToLast ? 1 : 0);
 
-
             // Remove CR
-            ptrContext[subLength - 1] = 0;
+            ptrContext [subLength - 1] = 0;
 
             char *line = malloc (sizeof (char) * subLength);
             strncpy (line, ptrContext, subLength);
@@ -147,7 +146,11 @@ void B_parse_input_cmds (char *input, unsigned length, run_t *run)
             }
 
             // Resize to remove redirects and special operators
-            cmd->args = realloc (cmd->args, sizeof (char *) * cmd->args_size);
+            cmd->args =
+                realloc (cmd->args, sizeof (char *) * cmd->args_size + 1);
+
+            // Append null terminator at end of array
+            cmd->args [cmd->args_size] = NULL;
 
             run->commands [run->commands_size++] = cmd;
 

@@ -18,6 +18,7 @@ target_link_libraries(buongiorno PRIVATE Threads::Threads)
 add_compile_definitions(shell352 DEBUG)
 add_executable(shell352 src/main.c)
 add_executable(grammar src/main_grammar.c)
+add_executable(pipes src/main_pipes.c)
 
 target_link_libraries(shell352 buongiorno)
 target_link_libraries(grammar buongiorno)

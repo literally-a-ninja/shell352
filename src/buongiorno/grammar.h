@@ -83,8 +83,8 @@ cmd_redirect_t *B_ctor_cmd_redirect_t (char *input, unsigned length);
  * Constructs and allocates cmd redirect using two tokens.
  **/
 cmd_redirect_t *B_ctor_cmd_redirect_t_tokenized (char *firstToken,
-                                               char *secondToken,
-                                               unsigned secondLength);
+                                                 char *secondToken,
+                                                 unsigned secondLength);
 
 /**
  * Constructs and allocates cmd props.

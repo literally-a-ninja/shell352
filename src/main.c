@@ -15,8 +15,9 @@
 #include "buongiorno/path.h"
 #include "buongiorno/string.h"
 
-#include "builtin.c"
 #include "exec.c"
+#include "exec.h"
+#include "jobs.h"
 #include "shell352.h"
 
 void recieve (int iSignal)
@@ -84,25 +85,6 @@ void shutdown ()
 #endif
 }
 
-void command (cmd_t *cmd, char **envp)
-{
-    builtin_callback_t *cb;
-    if ((cb = findBuiltinCmd (cmd->executable)))
-        cb (cmd, g_env);
-
-    printf("%sa\n", cmd->executable);
-
-    switch (exec (cmd, envp))
-    {
-    case 1:
-        fprintf (stderr, "%s: command not found.\n", cmd->executable);
-        break;
-
-    default:
-        break;
-    }
-}
-
 void *mainInput (void *vargp)
 {
     char input [80];
@@ -118,13 +100,8 @@ void *mainInput (void *vargp)
         if (!a->length)
             continue;
 
-        run_t *run       = ((run_t *)a->array [0]);
-        cmd_t **commands = run->commands;
-        unsigned c;
-        for (c = 0; c < run->commands_size; c++)
-        {
-            command (commands [c], (char **)vargp);
-        }
+        run_t *run = ((run_t *)a->array [0]);
+        execute_runs (run);
     }
 
     pthread_exit (0);
@@ -133,6 +110,9 @@ void *mainInput (void *vargp)
 int main (int argc, char *argv [], char *envp [])
 {
     init ();
+    mainInput (envp);
+
+    return 0;
 
     pthread_t g_inputThread;
     pthread_create (&g_inputThread, NULL, &mainInput, envp);
