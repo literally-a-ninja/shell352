@@ -1,0 +1,2 @@
+/usr/bin/ar qc libbuongiorno.a CMakeFiles/buongiorno.dir/src/buongiorno/file.c.o CMakeFiles/buongiorno.dir/src/buongiorno/grammar.c.o CMakeFiles/buongiorno.dir/src/buongiorno/parse.c.o CMakeFiles/buongiorno.dir/src/buongiorno/path.c.o CMakeFiles/buongiorno.dir/src/buongiorno/string.c.o
+/usr/bin/ranlib libbuongiorno.a

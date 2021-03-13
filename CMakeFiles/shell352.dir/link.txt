@@ -1,0 +1,1 @@
+/usr/bin/cc -rdynamic CMakeFiles/shell352.dir/src/main.c.o -o shell352  libbuongiorno.a -lpthread 
