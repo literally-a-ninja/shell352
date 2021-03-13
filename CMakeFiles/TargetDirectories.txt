@@ -1,0 +1,4 @@
+/home/johnny/Documents/Repositories/CS352/shell/CMakeFiles/rebuild_cache.dir
+/home/johnny/Documents/Repositories/CS352/shell/CMakeFiles/edit_cache.dir
+/home/johnny/Documents/Repositories/CS352/shell/CMakeFiles/shell352.dir
+/home/johnny/Documents/Repositories/CS352/shell/CMakeFiles/buongiorno.dir

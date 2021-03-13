@@ -4,5 +4,4 @@ grammar
 *.a
 .cache
 CMakeCache.txt
-CMakeFiles/
 cmake_install.cmake
