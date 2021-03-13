@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 #include "buongiorno/grammar.h"
+#include "jobs.h"
 
 #define IREAD 0
 #define IWRITE 1
@@ -16,7 +17,7 @@
  * Global shell handlers
  **/
 
-pid_t g_pidFg;
+job_t *g_fgJob = 0;
 struct run_t *g_run;
 struct environment *g_env;
 int g_shellStatus;
@@ -38,6 +39,11 @@ void init ();
  * shell352 : Called on signal capture.
  **/
 void recieve (int iSignal);
+
+/**
+ * shell352 : Called on signal capture.
+ **/
+void check_jobs ();
 
 /**
  * shell352 : Called on command acceptance

@@ -15,8 +15,8 @@
 typedef struct cmd_redirect_t
 {
     FILE *pipe;
-    char *dest;
-    unsigned dest_length;
+    char *destination;
+    unsigned destination_length;
     char bOutput;
 } cmd_redirect_t;
 
@@ -47,8 +47,10 @@ typedef struct run_t
 {
     /* Original line provided by stdin */
     char *line;
+
     /* Parsed sequence of commands */
     cmd_t **commands;
+
     /* Amount of commands reported */
     unsigned commands_size;
 } run_t;

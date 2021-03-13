@@ -75,17 +75,6 @@ CMAKE_BINARY_DIR = /home/johnny/Documents/Repositories/CS352/shell
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
-	/usr/bin/cmake-gui -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
@@ -96,6 +85,17 @@ rebuild_cache:
 rebuild_cache/fast: rebuild_cache
 
 .PHONY : rebuild_cache/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/cmake-gui -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -129,32 +129,6 @@ depend:
 	$(CMAKE_COMMAND) -P /home/johnny/Documents/Repositories/CS352/shell/CMakeFiles/VerifyGlobs.cmake
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
-
-#=============================================================================
-# Target rules for targets named pipes
-
-# Build rule for target.
-pipes: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 pipes
-.PHONY : pipes
-
-# fast build rule for target.
-pipes/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipes.dir/build.make CMakeFiles/pipes.dir/build
-.PHONY : pipes/fast
-
-#=============================================================================
-# Target rules for targets named grammar
-
-# Build rule for target.
-grammar: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 grammar
-.PHONY : grammar
-
-# fast build rule for target.
-grammar/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/grammar.dir/build.make CMakeFiles/grammar.dir/build
-.PHONY : grammar/fast
 
 #=============================================================================
 # Target rules for targets named shell352
@@ -344,60 +318,6 @@ src/main.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/shell352.dir/build.make CMakeFiles/shell352.dir/src/main.c.s
 .PHONY : src/main.c.s
 
-src/main_grammar.o: src/main_grammar.c.o
-
-.PHONY : src/main_grammar.o
-
-# target to build an object file
-src/main_grammar.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/grammar.dir/build.make CMakeFiles/grammar.dir/src/main_grammar.c.o
-.PHONY : src/main_grammar.c.o
-
-src/main_grammar.i: src/main_grammar.c.i
-
-.PHONY : src/main_grammar.i
-
-# target to preprocess a source file
-src/main_grammar.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/grammar.dir/build.make CMakeFiles/grammar.dir/src/main_grammar.c.i
-.PHONY : src/main_grammar.c.i
-
-src/main_grammar.s: src/main_grammar.c.s
-
-.PHONY : src/main_grammar.s
-
-# target to generate assembly for a file
-src/main_grammar.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/grammar.dir/build.make CMakeFiles/grammar.dir/src/main_grammar.c.s
-.PHONY : src/main_grammar.c.s
-
-src/main_pipes.o: src/main_pipes.c.o
-
-.PHONY : src/main_pipes.o
-
-# target to build an object file
-src/main_pipes.c.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipes.dir/build.make CMakeFiles/pipes.dir/src/main_pipes.c.o
-.PHONY : src/main_pipes.c.o
-
-src/main_pipes.i: src/main_pipes.c.i
-
-.PHONY : src/main_pipes.i
-
-# target to preprocess a source file
-src/main_pipes.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipes.dir/build.make CMakeFiles/pipes.dir/src/main_pipes.c.i
-.PHONY : src/main_pipes.c.i
-
-src/main_pipes.s: src/main_pipes.c.s
-
-.PHONY : src/main_pipes.s
-
-# target to generate assembly for a file
-src/main_pipes.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/pipes.dir/build.make CMakeFiles/pipes.dir/src/main_pipes.c.s
-.PHONY : src/main_pipes.c.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -407,8 +327,6 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... buongiorno"
-	@echo "... grammar"
-	@echo "... pipes"
 	@echo "... shell352"
 	@echo "... src/buongiorno/file.o"
 	@echo "... src/buongiorno/file.i"
@@ -428,12 +346,6 @@ help:
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"
-	@echo "... src/main_grammar.o"
-	@echo "... src/main_grammar.i"
-	@echo "... src/main_grammar.s"
-	@echo "... src/main_pipes.o"
-	@echo "... src/main_pipes.i"
-	@echo "... src/main_pipes.s"
 .PHONY : help
 
 

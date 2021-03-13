@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 // buongiornolib gets loaded first!
 #include "buongiorno/common.h"
@@ -16,7 +17,7 @@
 #include "buongiorno/string.h"
 
 #include "exec.c"
-#include "exec.h"
+#include "jobs.c"
 #include "jobs.h"
 #include "shell352.h"
 
@@ -28,20 +29,16 @@ void recieve (int iSignal)
     case SIGTSTP:
     case SIGTERM:
     case SIGQUIT:
-        if (!g_pidFg)
+        if (!g_fgJob)
             break;
-        kill (g_pidFg, iSignal);
+        kill (g_fgJob->pid, iSignal);
+        g_fgJob->background = 1;
         break;
 
     /* Double print new line to let the user know we're done. */
     case SIGINT:
-        if (g_pidFg)
-            kill (g_pidFg, iSignal);
-        else
-        {
-            printf ("\n");
-            g_shellStatus |= SHELL_DIE;
-        }
+        printf ("\n");
+        g_shellStatus |= SHELL_DIE;
         break;
 
     default:
@@ -66,8 +63,10 @@ void init ()
     // g_env->m_ptrWd = realloc(&g_env->m_ptrWd, sizeof(char) *
     // B_strlen(g_env->m_ptrWd));
 
-    g_pidFg = 0;
-    g_run   = malloc (sizeof (run_t));
+    g_fgJob      = 0;
+    g_job_count  = 1;
+    g_job_lowest = 1;
+    g_run        = malloc (sizeof (run_t));
 }
 
 void shutdown ()
@@ -85,11 +84,57 @@ void shutdown ()
 #endif
 }
 
-void *mainInput (void *vargp)
+void check_jobs ()
+{
+    if (!g_job_count)
+        return;
+
+    int status, pid;
+    while ((pid = waitpid (-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
+    {
+        job_t *job;
+        if (!(job = find_job_by_pid (pid)))
+        {
+            continue;
+        }
+
+        if (job->state == Done || WIFEXITED (status))
+        {
+            unsigned id = job->id;
+
+            if (job->background)
+            {
+                job->state = Done;
+                job_print_status (job);
+            }
+
+            g_job_count--;
+            g_job_lowest = min (g_job_lowest, id);
+            g_jobs [id]  = 0;
+
+            free (job);
+            return;
+        }
+
+        if (WIFSTOPPED (status))
+        {
+            job->state = Suspended;
+        }
+        else if (WIFCONTINUED (status))
+        {
+            job->state = Running;
+        }
+
+        job_print_status (job);
+    }
+}
+
+void *main_input (void *vargp)
 {
     char input [80];
     while (!feof (stdin))
     {
+        check_jobs ();
         printf ("352 %s# ", g_env->m_ptrWd);
         fflush (stdout);
         fgets (input, 80, stdin);
@@ -100,8 +145,42 @@ void *mainInput (void *vargp)
         if (!a->length)
             continue;
 
-        run_t *run = ((run_t *)a->array [0]);
-        execute_runs (run);
+        unsigned i;
+        for (i = 0; i < a->length; i++)
+        {
+            pid_t pid;
+            run_t *run = a->array [i];
+
+            if (!run->commands_size)
+                continue;
+
+            job_t *job = ctor_job_t (run);
+
+            job->id          = job_find_next_available_id ();
+            g_jobs [job->id] = job;
+            g_fgJob          = job;
+            g_job_count++;
+
+            exec_job (job);
+
+            if (job->background)
+            {
+                job_print_status (job);
+                continue;
+            }
+
+            int status;
+            waitpid (-1, &status, WNOHANG);
+            if (WIFEXITED (status))
+            {
+                close (job->pipe [IWRITE]);
+                char c;
+                while ((read (job->pipe [IREAD], &c, sizeof (char))) > 0)
+                    write (STDOUT_FILENO, &c, sizeof (char));
+
+                close (job->pipe [IREAD]);
+            }
+        }
     }
 
     pthread_exit (0);
@@ -112,7 +191,7 @@ int main (int argc, char *argv [], char *envp [])
     init ();
 
     pthread_t g_inputThread;
-    pthread_create (&g_inputThread, NULL, &mainInput, envp);
+    pthread_create (&g_inputThread, NULL, &main_input, envp);
 
     while (1)
     {

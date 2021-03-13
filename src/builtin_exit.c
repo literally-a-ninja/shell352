@@ -6,6 +6,6 @@
 
 int builtin_exit (cmd_t *cmd, struct environment *e)
 {
-    close (STDIN_FILENO);
+    g_shellStatus |= SHELL_DIE;
     return 0;
 }

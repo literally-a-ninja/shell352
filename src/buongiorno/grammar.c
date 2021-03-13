@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include "grammar.h"
 #include "parse.h"
+#include "path.h"
 #include "string.h"
 
 #define CMD_MAX_PIPED_CMDS 15
@@ -43,9 +45,9 @@ cmd_redirect_t *B_ctor_cmd_redirect_t_tokenized (char *firstToken,
     redirect->bOutput        = *(firstToken + bFirstArgument) == '>';
     FILE *defaultPipe        = redirect->bOutput ? stdout : stdin;
 
-    redirect->pipe        = defaultPipe;
-    redirect->dest        = secondToken;
-    redirect->dest_length = secondLength;
+    redirect->pipe               = defaultPipe;
+    redirect->destination        = secondToken;
+    redirect->destination_length = secondLength;
 
     if (bFirstArgument)
     {
