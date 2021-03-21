@@ -48,6 +48,6 @@ void exec_safe_handle_returnval (int *wstatus);
  **/
 void exec_handle_returnval (int *wstatus);
 
-int exec_job (job_t *job);
+job_t *exec (run_t *run);
 
 #endif

@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/common.h
+grammar.h
+/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/grammar.h
+
+/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/grammar.h
+fcntl.h
+-
+signal.h
+-
+stdio.h
+-
+sys/types.h
+-
+
+/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/path.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+common.h
+/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/common.h
+path.h
+/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/path.h
+string.h
+/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/string.h
+
+/home/johnny/Documents/Repositories/CS352/shell/src/buongiorno/path.h
+

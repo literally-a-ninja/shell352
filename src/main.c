@@ -64,7 +64,7 @@ void init ()
     // B_strlen(g_env->m_ptrWd));
 
     g_fgJob      = 0;
-    g_job_count  = 1;
+    g_job_count  = 0;
     g_job_lowest = 1;
     g_run        = malloc (sizeof (run_t));
 }
@@ -93,39 +93,37 @@ void check_jobs ()
     while ((pid = waitpid (-1, &status, WNOHANG | WUNTRACED | WCONTINUED)) > 0)
     {
         job_t *job;
+
+        // Ignore PIDs without jobs
         if (!(job = find_job_by_pid (pid)))
-        {
             continue;
-        }
 
-        if (job->state == Done || WIFEXITED (status))
-        {
+        if (job->state == Done) {
             unsigned id = job->id;
-
-            if (job->background)
-            {
-                job->state = Done;
-                job_print_status (job);
-            }
 
             g_job_count--;
             g_job_lowest = min (g_job_lowest, id);
             g_jobs [id]  = 0;
 
             free (job);
-            return;
         }
 
-        if (WIFSTOPPED (status))
+        // We'll set it to Done here and free the job next cycle.
+        if (WIFEXITED (status))
+        {
+            job->state = Done;
+            job_print_status (job);
+        }
+        else if (WIFSTOPPED (status))
         {
             job->state = Suspended;
+            job_print_status (job);
         }
         else if (WIFCONTINUED (status))
         {
             job->state = Running;
+            job_print_status (job);
         }
-
-        job_print_status (job);
     }
 }
 
@@ -154,14 +152,12 @@ void *main_input (void *vargp)
             if (!run->commands_size)
                 continue;
 
-            job_t *job = ctor_job_t (run);
-
-            job->id          = job_find_next_available_id ();
-            g_jobs [job->id] = job;
-            g_fgJob          = job;
-            g_job_count++;
-
-            exec_job (job);
+            job_t *job;
+            if (!(job = exec (run)))
+            {
+                // Either failed execution or builtin.
+                continue;
+            }
 
             if (job->background)
             {

@@ -14,7 +14,6 @@
 
 void exec_safe_attach_redirects (cmd_t *cmd)
 {
-
     if (cmd->props->redirect_from)
     {
         int fd;
@@ -158,16 +157,25 @@ void exec_handle_returnval (int *wstatus)
     }
 }
 
-int exec_job (job_t *job)
+job_t *exec (run_t *run)
 {
-    run_t *run = job->run;
     if (!run->commands_size)
         return 0;
 
     cmd_t *firstCmd = run->commands [0];
     builtin_callback_t *cb;
     if ((cb = findBuiltinCmd (firstCmd->executable)))
-        return cb (firstCmd, g_env);
+    {
+        cb (firstCmd, g_env);
+        return 0;
+    }
+
+    job_t *job = ctor_job_t (run);
+
+    job->id          = job_find_next_available_id ();
+    g_jobs [job->id] = job;
+    g_fgJob          = job;
+    g_job_count++;
 
     // FORK after PIPE to avoid issues!
     pid_t pid;
@@ -188,6 +196,5 @@ int exec_job (job_t *job)
         break;
     }
 
-    // exit (0);
-    return 0;
+    return job;
 }

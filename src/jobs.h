@@ -6,11 +6,18 @@
 
 typedef enum job_state
 {
-    Init,
-    Running,
-    Suspended,
-    Done
+    Init      = 0,
+    Running   = 1,
+    Suspended = 2,
+    Done      = 3,
 } job_state;
+
+const char *const job_state_name [] = {
+    [Init]      = "",
+    [Running]   = "running",
+    [Suspended] = "stopped",
+    [Done]      = "done",
+};
 
 typedef struct job_t
 {
